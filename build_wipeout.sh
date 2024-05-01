@@ -86,7 +86,7 @@ deps=( cmake sdl2 )
 
 for dep in $deps[@]
 do 
-	# brew_dependency_check $dep
+	brew_dependency_check $dep
 done
 
 # Get the repository
