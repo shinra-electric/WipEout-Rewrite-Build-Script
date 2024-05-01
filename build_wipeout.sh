@@ -94,17 +94,41 @@ echo "${PURPLE}Cloning the repository...${NC}"
 git clone --recursive https://github.com/phoboslab/wipeout-rewrite
 cd wipeout-rewrite
 
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not clone the repo${NC}"
+	exit 1
+fi
+
 # Fix SDL header
 echo "${PURPLE}Fixing SDL Header issue...${NC}"
 sed -i '' "s|#include <SDL2/SDL.h>|#include <SDL.h>|g" src/platform_sdl.c
+
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not fix the SDL Header issue${NC}"
+	exit 1
+fi
 
 # Configure
 echo "${PURPLE}Configuring build...${NC}"
 cmake . -B build -DCMAKE_PREFIX_PATH="$(brew --prefix sdl2)"
 
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not configure CMake${NC}"
+	exit 1
+fi
+
 # Build
 echo "${PURPLE}Building...${NC}"
 cmake --build build
+
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Build failed${NC}"
+	exit 1
+fi
 
 # Move back to the main directory
 cd ..
@@ -167,6 +191,12 @@ echo "${PKGINFO}" > WipEout.app/Contents/PkgInfo
 echo "${PURPLE}Copying resources...${NC}"
 mv wipeout-rewrite/build/wipeout WipEout.app/Contents/MacOS/
 
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not create app bundle${NC}"
+	exit 1
+fi
+
 if [[ -a wipeout.png ]]; then 
 	# Create icon if there is a file called prince1024.png in the build folder
 	echo "${PURPLE}Found image file. Creating icon...${NC}"
@@ -199,13 +229,31 @@ curl -o WipEout.app/Contents/Resources/wipeout-data-v01.zip https://phoboslab.or
 unzip WipEout.app/Contents/Resources/wipeout-data-v01.zip -d WipEout.app/Contents/Resources
 rm -rf WipEout.app/Contents/Resources/wipeout-data-v01.zip
 
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not download game resources${NC}"
+	exit 1
+fi
+
 # Get an updated version of the game controller database
 echo -e "Getting an updated SDL game controller DB file...."
 curl -o WipEout.app/Contents/Resources/gamecontrollerdb.txt https://raw.githubusercontent.com/gabomdq/SDL_GameControllerDB/master/gamecontrollerdb.txt
 
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not download game controller DB${NC}"
+	exit 1
+fi
+
 # Bundle libs & Codesign
 echo "${PURPLE}Bundling dependencies and codesigning...${NC}"
 dylibbundler -of -cd -b -x WipEout.app/Contents/MacOS/wipeout -d WipEout.app/Contents/libs/
+
+# Check for failure. Exit if there were any problems  
+if [ $? -ne 0 ]; then
+	echo -e "${RED}Error:${PURPLE} Could not bundle dependencies${NC}"
+	exit 1
+fi
 
 echo "${PURPLE}Cleaning up...${NC}"
 rm -rf wipeout-rewrite
