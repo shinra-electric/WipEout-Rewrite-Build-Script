@@ -221,7 +221,7 @@ if [[ -a wipeout.png ]]; then
 	
 	# Otherwise get an icon from macosicons.com
 	echo "${PURPLE}Downloading an app icon from www.macosicons.com...${NC}"
-	curl -o WipEout.app/Contents/Resources/wipeout.icns https://parsefiles.back4app.com/JPaQcFfEEQ1ePBxbf6wvzkPMEqKYHhPYv8boI1Rc/46462185dc20624cf034d191a720ce23_Ultimate%20Racing%202D.icns
+	curl -o WipEout.app/Contents/Resources/wipeout.icns https://parsefiles.back4app.com/JPaQcFfEEQ1ePBxbf6wvzkPMEqKYHhPYv8boI1Rc/5abc8df22af1ebd5da32ce93eca8ef23_WipEout.icns
 fi
 
 echo "${PURPLE}Downloading game resources...${NC}"
