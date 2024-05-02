@@ -82,7 +82,7 @@ brew_dependency_check() {
 }
 
 # Required Homebrew packages
-deps=( cmake sdl2 )
+deps=( cmake dylibbundler sdl2 )
 
 for dep in $deps[@]
 do 
