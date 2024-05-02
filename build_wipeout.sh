@@ -112,7 +112,7 @@ fi
 
 # Configure
 echo "${PURPLE}Configuring build...${NC}"
-cmake . -B build -DCMAKE_PREFIX_PATH="$(brew --prefix sdl2)"
+cmake . -B build -DCMAKE_PREFIX_PATH="$(brew --prefix sdl2)" -DCMAKE_FIND_FRAMEWORK=LAST
 
 # Check for failure. Exit if there were any problems  
 if [ $? -ne 0 ]; then
