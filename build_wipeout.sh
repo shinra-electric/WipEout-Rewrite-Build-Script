@@ -110,9 +110,18 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+# Workaround for issues with SDL framework and non-standard OpenGL installs
+SEARCH_FRAMEWORKS_SEQUENCE=FIRST
+if [ -d /Library/Frameworks/SDL2.framework ]; then
+	echo "${PURPLE}Found SDL2.framework${NC}"
+	SEARCH_FRAMEWORKS_SEQUENCE=LAST
+fi
+
 # Configure
 echo "${PURPLE}Configuring build...${NC}"
-cmake . -B build -DCMAKE_PREFIX_PATH="$(brew --prefix sdl2)" -DCMAKE_FIND_FRAMEWORK=LAST
+cmake . -B build \
+			-DCMAKE_PREFIX_PATH="$(brew --prefix sdl2)" \
+			-DCMAKE_FIND_FRAMEWORK=$SEARCH_FRAMEWORKS_SEQUENCE
 
 # Check for failure. Exit if there were any problems  
 if [ $? -ne 0 ]; then
