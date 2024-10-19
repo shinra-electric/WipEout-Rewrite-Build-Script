@@ -169,6 +169,10 @@ PLIST="<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 	<string>WipEout</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
